@@ -17,7 +17,7 @@
 #./run.sh clean          # Limpar cache
 #./run.sh logs           # Ver logs
 #./run.sh stats          # Estatísticas
-./run.sh help           # Ajuda
+# ./run.sh help           # Ajuda
 # ============================================================================
 
 set -e  # Exit on error
