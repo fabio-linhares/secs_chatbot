@@ -3,8 +3,17 @@
 # Copyright (c) 2024-2025 Fábio Linhares
 # -*- coding: utf-8 -*-
 """
-Script para converter embeddings de documentos específicos
-Converte apenas docs do usuário, mantém docs base intactos
+============================================================================
+SECS Chatbot - Conversão de embeddings de usuários
+============================================================================
+Versão: 7.0
+Data: 2025-12-04
+Descrição: Converte embeddings apenas de documentos de usuários, preservando documentos base
+Autoria: Fábio Linhares <fabio.linhares@edu.vertex.org.br>
+Repositório: https://github.com/fabiolinhares/secs_chatbot
+Licença: MIT
+Compatibilidade: Python 3.11+
+============================================================================
 """
 
 import sqlite3

@@ -3,8 +3,17 @@
 # Copyright (c) 2024-2025 Fábio Linhares
 # -*- coding: utf-8 -*-
 """
-Script para aplicar headers padronizados a todos os arquivos do projeto.
+============================================================================
+SECS Chatbot - Aplicador de cabeçalhos padronizados
+============================================================================
+Versão: 7.0
+Data: 2025-12-04
+Descrição: Script para aplicar headers padronizados a todos os arquivos do projeto
 Autoria: Fábio Linhares <fabio.linhares@edu.vertex.org.br>
+Repositório: https://github.com/fabiolinhares/secs_chatbot
+Licença: MIT
+Compatibilidade: Python 3.11+
+============================================================================
 """
 
 import os

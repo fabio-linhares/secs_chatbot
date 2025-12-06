@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2024-2025 Fábio Linhares
-"""Testa embeddings via OpenRouter"""
+# -*- coding: utf-8 -*-
+"""
+============================================================================
+SECS Chatbot - Teste de embeddings via OpenRouter
+============================================================================
+Versão: 7.0
+Data: 2025-12-04
+Descrição: Script para testar geração de embeddings via OpenRouter
+Autoria: Fábio Linhares <fabio.linhares@edu.vertex.org.br>
+Repositório: https://github.com/fabiolinhares/secs_chatbot
+Licença: MIT
+Compatibilidade: Python 3.11+
+============================================================================
+"""
 
 import sys
 sys.path.insert(0, 'src')

@@ -1,7 +1,19 @@
+#!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2024-2025 Fábio Linhares
+# -*- coding: utf-8 -*-
 """
-Test script for new services: Count Helper, Prompt Enricher, Semantic Rewriter, Focal Agent
+============================================================================
+SECS Chatbot - Testes de novos serviços
+============================================================================
+Versão: 7.0
+Data: 2025-12-04
+Descrição: Testes para Count Helper, Prompt Enricher, Semantic Rewriter e Focal Agent
+Autoria: Fábio Linhares <fabio.linhares@edu.vertex.org.br>
+Repositório: https://github.com/fabiolinhares/secs_chatbot
+Licença: MIT
+Compatibilidade: Python 3.11+
+============================================================================
 """
 import sys
 import os
