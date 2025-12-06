@@ -528,16 +528,3 @@ class FocalAgent:
 - **Embeddings**: 1536 dimensões
 - **Cache**: 1000 queries (configurável)
 
----
-
-## 8. Conclusão
-
-Sistema RAG completo e otimizado para hardware modesto, com:
-
-✅ **HyDE** para +20-30% precisão  
-✅ **Permissões** granulares  
-✅ **Cache** multinível (98% redução latência)  
-✅ **Embeddings** via OpenRouter (sem overhead)  
-✅ **Agentes** especializados  
-
-**Pronto para produção em Celeron N3050 + 8GB RAM!** 🚀

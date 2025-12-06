@@ -569,14 +569,3 @@ MIT License - Veja LICENSE para detalhes
 - **Email**: fabio.linhares@edu.vertex.org.br
 - **site**: zerocopia.com.br
 
----
-
-## 🎯 Próximos Passos
-
-Após instalação:
-
-1. ✅ Ler [GUIA_USUARIO.md](GUIA_USUARIO.md) - Manual completo
-2. ✅ Fazer primeiro upload de PDF
-3. ✅ Testar HyDE (toggle na sidebar)
-4. ✅ Configurar permissões (se admin)
-5. ✅ Explorar agentes especializados

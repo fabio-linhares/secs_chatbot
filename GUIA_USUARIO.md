@@ -732,21 +732,3 @@ cp -r data/documents data/documents.backup
 ```
 
 **Backup automático**: Em desenvolvimento
-
----
-
-## 🎓 Próximos Passos
-
-Após dominar o básico:
-
-1. ✅ Ler [ARTIGO_TECNICO.md](ARTIGO_TECNICO.md) - Entender arquitetura
-2. ✅ Explorar Admin Panel - Se for admin
-3. ✅ Testar HyDE - Comparar resultados
-4. ✅ Fazer upload de documentos - Personalizar base
-5. ✅ Configurar permissões - Organizar acesso
-
----
-
-**Aproveite o sistema!** 🚀
-
-*Dúvidas? Veja [README.md](README.md) ou abra uma issue no GitHub.*
