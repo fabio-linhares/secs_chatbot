@@ -31,7 +31,12 @@ NC='\033[0m' # No Color
 
 # Configurações
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VENV_DIR="${PROJECT_DIR}/venv"
+# Preferir .venv se existir; fallback para venv
+if [ -d "${PROJECT_DIR}/.venv" ]; then
+    VENV_DIR="${PROJECT_DIR}/.venv"
+else
+    VENV_DIR="${PROJECT_DIR}/venv"
+fi
 DATA_DIR="${PROJECT_DIR}/data"
 LOG_DIR="${DATA_DIR}/logs"
 ENV_FILE="${PROJECT_DIR}/.env"
@@ -221,13 +226,20 @@ full_setup() {
 # ============================================================================
 
 activate_env() {
+    local activated=0
     if [ -d "$VENV_DIR" ]; then
         source "$VENV_DIR/bin/activate"
-        print_success "Ambiente virtual ativado"
-    elif command -v conda &> /dev/null; then
+        print_success "Ambiente virtual ativado (${VENV_DIR})"
+        activated=1
+    elif command -v conda &> /dev/null && conda env list | grep -q "^secs_chatbot "; then
         eval "$(conda shell.bash hook)"
-        conda activate secs_chatbot 2>/dev/null || true
+        conda activate secs_chatbot
         print_success "Ambiente conda ativado"
+        activated=1
+    fi
+
+    if [ $activated -eq 0 ]; then
+        print_warning "Nenhum ambiente virtual/conda encontrado. Execute './run.sh setup' primeiro."
     fi
 }
 
@@ -245,7 +257,14 @@ start_app() {
     print_info "Acesse: http://localhost:8501"
     print_info "Pressione Ctrl+C para parar"
     echo ""
-    
+
+    if ! command -v streamlit &>/dev/null; then
+        print_error "streamlit não encontrado no ambiente atual."
+        print_info "Execute './run.sh setup' para criar o ambiente e instalar dependências"
+        print_info "ou rode 'pip install -r requirements.txt' no ambiente ativo."
+        exit 1
+    fi
+
     streamlit run "src/${APP_FILE}" \
         --server.port=8501 \
         --server.address=localhost \
