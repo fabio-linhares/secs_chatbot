@@ -15,7 +15,7 @@ Ferramentas: Python/Streamlit/OpenRouter, com apoio de IA generativa em atividad
 Responsabilidade técnica e revisão final: Fábio Linhares.
 
 **Versão**: 7.1 (HyDE)  
-**Release**: 06/12/2025 
+**Release**: 06/12/2025  
 **Acesse o protótipo**: http://secs-ufal.zerocopia.com.br
 
 
