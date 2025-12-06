@@ -1,0 +1,269 @@
+# ============================================================================
+# SECS Chatbot - .gitignore ATUALIZADO
+# ============================================================================
+# Versão: 7.1
+# Data: 2024-12-06
+# Descrição: Arquivos e diretórios a serem ignorados pelo Git
+# Otimizado para publicação profissional no GitHub
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# CREDENCIAIS E CONFIGURAÇÕES SENSÍVEIS
+# ----------------------------------------------------------------------------
+# Justificativa: Nunca versionar credenciais ou chaves de API
+.env
+.env.local
+.env.*.local
+.env.old*
+.env.backup*
+.env.*update
+*.key
+*.pem
+secrets/
+credentials/
+
+# ----------------------------------------------------------------------------
+# BANCO DE DADOS
+# ----------------------------------------------------------------------------
+# Justificativa: Dados locais, podem conter informações sensíveis
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+data/app.db
+data/*.db
+data/app.db.backup_*
+
+# ----------------------------------------------------------------------------
+# BACKUPS
+# ----------------------------------------------------------------------------
+# Justificativa: Backups são específicos de cada instalação
+data/backups/
+*.backup
+*.bak
+*~
+
+# ----------------------------------------------------------------------------
+# LOGS
+# ----------------------------------------------------------------------------
+# Justificativa: Logs são gerados em runtime e podem ser grandes
+*.log
+logs/
+data/logs/
+*.log.*
+
+# ----------------------------------------------------------------------------
+# UPLOADS DE USUÁRIOS
+# ----------------------------------------------------------------------------
+# Justificativa: Arquivos enviados por usuários não devem ser versionados
+data/user_uploads/
+uploads/
+user_documents/
+data/documents/
+
+# ----------------------------------------------------------------------------
+# DOCUMENTOS INSTITUCIONAIS (NÃO PÚBLICOS)
+# ----------------------------------------------------------------------------
+# Justificativa: Documentos oficiais da UFAL, não devem ser públicos
+# Manter apenas exemplos fictícios
+data/documentos/regimentos/*.pdf
+data/documentos/regimentos/*.md
+data/documentos/atas/*.md
+data/documentos/resolucoes/*.md
+data/documentos/pautas/*.md
+# Permitir apenas pasta de exemplos
+!data/documentos/exemplos/
+
+# ----------------------------------------------------------------------------
+# PYTHON
+# ----------------------------------------------------------------------------
+# Justificativa: Arquivos gerados pelo Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ----------------------------------------------------------------------------
+# AMBIENTES VIRTUAIS
+# ----------------------------------------------------------------------------
+# Justificativa: Ambientes virtuais são específicos de cada máquina
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ----------------------------------------------------------------------------
+# JUPYTER NOTEBOOK
+# ----------------------------------------------------------------------------
+# Justificativa: Checkpoints são gerados automaticamente
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# ----------------------------------------------------------------------------
+# PYTEST
+# ----------------------------------------------------------------------------
+# Justificativa: Cache de testes
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ----------------------------------------------------------------------------
+# MYPY
+# ----------------------------------------------------------------------------
+# Justificativa: Cache de type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ----------------------------------------------------------------------------
+# STREAMLIT
+# ----------------------------------------------------------------------------
+# Justificativa: Cache do Streamlit
+.streamlit/secrets.toml
+
+# ----------------------------------------------------------------------------
+# IDEs E EDITORES
+# ----------------------------------------------------------------------------
+# Justificativa: Configurações específicas de IDE
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ----------------------------------------------------------------------------
+# SISTEMA OPERACIONAL
+# ----------------------------------------------------------------------------
+# Justificativa: Arquivos específicos do OS
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# ----------------------------------------------------------------------------
+# TEMPORÁRIOS
+# ----------------------------------------------------------------------------
+# Justificativa: Arquivos temporários
+*.tmp
+*.temp
+tmp/
+temp/
+.cache/
+
+# ----------------------------------------------------------------------------
+# DOCUMENTOS INTERNOS (NÃO PÚBLICOS)
+# ----------------------------------------------------------------------------
+# Justificativa: Documentos de desenvolvimento interno, não para público
+docs/archive/
+IMPLEMENTACAO_FINAL*.md
+MELHORIAS_*.md
+STATUS_IMPLEMENTACAO.md
+CORRECOES_RAG.md
+SISTEMA_FUNCIONANDO.md
+RELATORIO_*.md
+RESUMO_AVALIACAO.md
+INSTRUCOES.md
+
+# Versões antigas de documentação
+*.md.old
+*.md.backup
+
+# ----------------------------------------------------------------------------
+# ARQUIVOS DE PROJETO ESPECÍFICOS
+# ----------------------------------------------------------------------------
+# Justificativa: Arquivos de desenvolvimento local
+.gemini/
+*.draft
+*.wip
+
+# ----------------------------------------------------------------------------
+# ARQUIVOS GRANDES
+# ----------------------------------------------------------------------------
+# Justificativa: Evitar arquivos muito grandes no repositório
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mkv
+videos/
+
+# PDFs grandes (manter apenas documentação essencial)
+# Descomentar se necessário:
+# *.pdf
+
+# ----------------------------------------------------------------------------
+# NODE MODULES (se usar ferramentas JS)
+# ----------------------------------------------------------------------------
+node_modules/
+package-lock.json
+yarn.lock
+
+# ----------------------------------------------------------------------------
+# OUTROS
+# ----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+*.cover
+.hypothesis/
+celerybeat-schedule
+*.sage.py
+.spyderproject
+.spyproject
+.ropeproject

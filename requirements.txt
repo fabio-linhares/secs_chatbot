@@ -1,0 +1,80 @@
+# ============================================================================
+# SECS Chatbot - Dependências
+# ============================================================================
+# Versão: 7.1
+# Data: 2024-12-06
+# Autoria: Fábio Linhares <fabio.linhares@edu.vertex.org.br>
+# Licença: MIT
+# Python: 3.11+
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Core Framework
+# ----------------------------------------------------------------------------
+streamlit>=1.28.0              # Interface web
+python-dotenv>=1.0.0           # Gerenciamento de variáveis de ambiente
+
+# ----------------------------------------------------------------------------
+# LLM e APIs
+# ----------------------------------------------------------------------------
+openai>=1.0.0                  # Cliente OpenAI/OpenRouter
+tiktoken>=0.5.0                # Tokenização para LLMs
+
+# ----------------------------------------------------------------------------
+# Embeddings e Vector Store
+# ----------------------------------------------------------------------------
+sentence-transformers>=2.2.0   # Embeddings locais (opcional)
+numpy>=1.24.0,<2.0.0           # Operações vetoriais (<2.0 para compatibil..)
+faiss-cpu>=1.7.4               # Vector store (opcional, não usado atualmente)
+
+# ----------------------------------------------------------------------------
+# Document Processing
+# ----------------------------------------------------------------------------
+pypdf>=3.17.0                  # Leitura de PDFs
+langchain>=0.1.0               # Framework para LLM apps
+langchain-community>=0.0.10    # Componentes community do LangChain
+
+# ----------------------------------------------------------------------------
+# Configuration e Validation
+# ----------------------------------------------------------------------------
+pydantic>=2.5.0                # Validação de dados
+pydantic-settings>=2.1.0       # Gerenciamento de configurações
+
+# ----------------------------------------------------------------------------
+# System Monitoring (Opcional)
+# ----------------------------------------------------------------------------
+psutil>=5.9.0                  # Monitoramento de sistema
+
+# ----------------------------------------------------------------------------
+# Testing (Opcional - Desenvolvimento)
+# ----------------------------------------------------------------------------
+pytest>=7.4.0                  # Framework de testes
+pytest-cov>=4.1.0              # Cobertura de testes
+
+# ----------------------------------------------------------------------------
+# Notas de Instalação
+# ----------------------------------------------------------------------------
+# 
+# INSTALAÇÃO BÁSICA (mínima):
+#   pip install \
+#       streamlit \
+#       python-dotenv \
+#       openai \
+#       tiktoken \
+#       numpy \
+#       pypdf \
+#       langchain \
+#       pydantic \
+#       pydantic-settings
+#
+# INSTALAÇÃO COMPLETA:
+#   pip install -r requirements.txt
+#
+# HARDWARE MODESTO (Celeron N3050, 8GB RAM):
+#   - NÃO instalar sentence-transformers (usar embeddings via OpenRouter)
+#   - NÃO instalar faiss-cpu (não usado atualmente)
+#   - Configurar .env com EMBEDDING_PROVIDER=openai
+#
+# PRODUÇÃO:
+#   pip install --no-cache-dir -r requirements.txt
+#
