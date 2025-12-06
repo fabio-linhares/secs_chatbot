@@ -562,8 +562,6 @@ Linhares, F. *Chatbot SECS/UFAL - Sistema RAG Inteligente* (v7.1). GitHub, 2024.
 
 MIT License - Veja LICENSE para detalhes
 
----v
-
 ## 📞 Suporte
 
 - **Issues**: [GitHub Issues](https://github.com/fabio-linhares/secs_chatbot/issues)
