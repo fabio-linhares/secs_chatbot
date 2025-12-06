@@ -136,6 +136,131 @@ PYTHON_SCRIPT
     fi
 }
 
+verify_pdfs() {
+    print_info "Verificando arquivos PDF..."
+    
+    activate_env
+    
+    # Usar Python para verificar PDFs
+    python3 <<'PYTHON_SCRIPT'
+import os
+import sys
+import sqlite3
+from pathlib import Path
+
+# Diretórios para verificar
+base_dir = Path("data")
+dirs_to_check = [
+    base_dir / "documentos",
+    base_dir / "documents",
+    base_dir / "user_uploads"
+]
+
+# Encontrar todos os PDFs
+all_pdfs = []
+for dir_path in dirs_to_check:
+    if dir_path.exists():
+        pdfs = list(dir_path.rglob("*.pdf"))
+        all_pdfs.extend(pdfs)
+        if pdfs:
+            print(f"📁 {dir_path}: {len(pdfs)} PDF(s)")
+
+if not all_pdfs:
+    print("\n⚠️  Nenhum arquivo PDF encontrado nos diretórios.")
+    sys.exit(0)
+
+print(f"\n📊 Total de PDFs encontrados: {len(all_pdfs)}")
+
+# Verificar PDFs já processados no banco
+db_path = Path("data/app.db")
+if db_path.exists():
+    try:
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        
+        # Obter documentos já processados
+        cursor.execute("SELECT titulo, caminho FROM documentos")
+        processed_docs = cursor.fetchall()
+        conn.close()
+        
+        processed_paths = set()
+        for _, path in processed_docs:
+            if path:
+                processed_paths.add(Path(path).name)
+        
+        # Identificar novos PDFs
+        new_pdfs = []
+        for pdf in all_pdfs:
+            if pdf.name not in processed_paths:
+                new_pdfs.append(pdf)
+        
+        print(f"✅ PDFs já processados: {len(all_pdfs) - len(new_pdfs)}")
+        print(f"🆕 Novos PDFs encontrados: {len(new_pdfs)}")
+        
+        if new_pdfs:
+            print("\n📄 Novos PDFs:")
+            for pdf in new_pdfs[:10]:  # Mostrar apenas os primeiros 10
+                print(f"   - {pdf.relative_to('data')}")
+            if len(new_pdfs) > 10:
+                print(f"   ... e mais {len(new_pdfs) - 10} arquivo(s)")
+            sys.exit(1)  # Indicar que há novos PDFs
+        else:
+            print("\n✅ Todos os PDFs já foram processados!")
+            sys.exit(0)
+    except Exception as e:
+        print(f"\n⚠️  Erro ao verificar banco de dados: {e}")
+        print("💡 Execute './run.sh vectorize' para processar os documentos.")
+        sys.exit(1)
+else:
+    print("\n⚠️  Banco de dados não encontrado.")
+    print("💡 Execute './run.sh vectorize' para criar o banco e processar os documentos.")
+    sys.exit(1)
+PYTHON_SCRIPT
+    
+    return $?
+}
+
+vectorize_pdfs() {
+    print_header "Vetorização de Documentos"
+    
+    activate_env
+    
+    # Verificar se há PDFs
+    print_info "Verificando documentos..."
+    if ! verify_pdfs; then
+        echo ""
+        read -p "Deseja processar os documentos agora? (y/n): " process_docs
+        if [[ $process_docs != "y" ]]; then
+            print_info "Vetorização cancelada."
+            return 0
+        fi
+    else
+        print_success "Todos os documentos já estão processados."
+        read -p "Deseja reprocessar todos os documentos? (y/n): " reprocess
+        if [[ $reprocess != "y" ]]; then
+            return 0
+        fi
+    fi
+    
+    echo ""
+    print_info "Iniciando processo de vetorização..."
+    
+    # Executar script de ingestão
+    if [ -f "scripts/ingest_documents.py" ]; then
+        python scripts/ingest_documents.py
+        
+        if [ $? -eq 0 ]; then
+            print_success "Vetorização concluída com sucesso!"
+        else
+            print_error "Erro durante a vetorização."
+            return 1
+        fi
+    else
+        print_error "Script de ingestão não encontrado: scripts/ingest_documents.py"
+        return 1
+    fi
+}
+
 # ============================================================================
 # Instalação e Setup
 # ============================================================================
@@ -440,12 +565,18 @@ ${GREEN}Manutenção:${NC}
   logs            Mostra logs recentes
   stats           Mostra estatísticas do sistema
   
+${GREEN}Documentos e RAG:${NC}
+  verify-pdfs     Verifica PDFs nos diretórios de dados
+  vectorize       Processa e vetoriza documentos para o RAG
+  
 ${GREEN}Ajuda:${NC}
   help            Mostra esta mensagem
 
 ${GREEN}Exemplos:${NC}
   ./run.sh setup          # Primeira vez (criar venv, instalar deps)
   ./run.sh start          # Iniciar chatbot
+  ./run.sh verify-pdfs    # Verificar PDFs disponíveis
+  ./run.sh vectorize      # Processar documentos para o RAG
   ./run.sh test           # Executar testes
   ./run.sh backup         # Fazer backup do banco
   ./run.sh clean          # Limpar cache
@@ -491,6 +622,12 @@ main() {
             ;;
         stats)
             show_stats
+            ;;
+        verify-pdfs)
+            verify_pdfs
+            ;;
+        vectorize)
+            vectorize_pdfs
             ;;
         help|--help|-h)
             show_help

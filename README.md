@@ -249,7 +249,19 @@ LOG_LEVEL=INFO
 LOG_FILE=data/logs/app.log
 ```
 
-### 3. Executar
+### 3. Adicionar e Processar Documentos
+
+Antes de iniciar o chatbot, você precisa processar os documentos PDF:
+
+```bash
+# 1. Verificar PDFs disponíveis
+./run.sh verify-pdfs
+
+# 2. Processar e vetorizar documentos
+./run.sh vectorize
+```
+
+### 4. Executar o Chatbot
 
 ```bash
 # Usando script (recomendado)
@@ -276,6 +288,61 @@ Acesse: **http://localhost:8501**
 | **Latência** | ~200ms | ~500ms (local) |
 | **Qualidade** | Excelente (1536d) | Boa (384d) |
 | **Recomendado para** | Celeron, 4-8GB RAM | i5+, 16GB+ RAM |
+
+---
+
+## 🛠️ Comandos do run.sh
+
+O script `run.sh` centraliza todas as operações do sistema:
+
+### Configuração Inicial
+
+```bash
+./run.sh setup          # Configuração completa (venv + dependências + .env)
+```
+
+### Gerenciamento de Documentos
+
+```bash
+./run.sh verify-pdfs    # Verificar PDFs nos diretórios
+./run.sh vectorize      # Processar e vetorizar documentos para o RAG
+```
+
+**Workflow recomendado para novos documentos:**
+
+1. Adicione PDFs em `data/documentos/`, `data/documents/` ou `data/user_uploads/`
+2. Execute `./run.sh verify-pdfs` para ver quantos PDFs novos foram encontrados
+3. Execute `./run.sh vectorize` para processar e vetorizar
+4. Inicie o chatbot com `./run.sh start`
+
+### Execução do Chatbot
+
+```bash
+./run.sh start          # Inicia app enhanced (recomendado)
+./run.sh start-basic    # Inicia app básico
+./run.sh start-enhanced # Inicia app enhanced (mesmo que start)
+```
+
+### Testes e Validação
+
+```bash
+./run.sh test           # Executa todos os testes (cache, serviços, HyDE)
+```
+
+### Manutenção
+
+```bash
+./run.sh clean          # Limpa cache Python e logs antigos
+./run.sh backup         # Cria backup do banco de dados
+./run.sh logs           # Mostra logs recentes
+./run.sh stats          # Exibe estatísticas do sistema
+```
+
+### Ajuda
+
+```bash
+./run.sh help           # Mostra todos os comandos disponíveis
+```
 
 ---
 ---
@@ -306,11 +373,14 @@ secs_chatbot/
 │   └── config.py                  # Configuração
 ├── data/
 │   ├── app.db                     # SQLite (docs + chunks)
-│   ├── documents/                 # PDFs base
+│   ├── documentos/                # PDFs institucionais
+│   ├── documents/                 # PDFs adicionais
+│   ├── user_uploads/              # Uploads de usuários
 │   └── logs/                      # Logs da aplicação
 ├── scripts/                       # Scripts utilitários
 │   ├── ingest_documents.py       # Processar PDFs
 │   └── test_hyde.py              # Testar HyDE
+├── run.sh                         # Script principal (setup/start/vectorize)
 ├── README.md                      # Este arquivo
 ├── GUIA_USUARIO.md               # Manual completo
 ├── ARTIGO_TECNICO.md             # Arquitetura técnica
