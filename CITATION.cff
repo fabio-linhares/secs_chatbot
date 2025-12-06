@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Se você usar este software em trabalho acadêmico, por favor cite."
+title: "Chatbot SECS/UFAL - Sistema RAG Inteligente"
+version: "7.1"
+authors:
+  - family-names: "Linhares"
+    given-names: "Fábio"
+date-released: "2024-12-06"
+url: "https://github.com/fabio-linhares/secs_chatbot"
+license: "MIT"
