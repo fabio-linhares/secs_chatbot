@@ -1,7 +1,7 @@
 # 📖 Guia do Usuário - Chatbot SECS/UFAL
 
 **Versão**: 7.1  
-**Última atualização**: 06/12/2024
+**Última atualização**: 06/12/2025
 
 ---
 
@@ -127,8 +127,8 @@ Após configuração inicial:
 
 ```
 ✅ "Qual a pauta da próxima reunião?"
-✅ "Mostre a pauta de abril de 2024"
-✅ "Quais os itens da pauta 03/2024?"
+✅ "Mostre a pauta de abril de 2025"
+✅ "Quais os itens da pauta 03/2025?"
 ```
 
 **Resposta esperada**:
@@ -142,7 +142,7 @@ Após configuração inicial:
 ```
 ✅ "Resumo da última ata"
 ✅ "Quem participou da reunião de março?"
-✅ "O que foi aprovado na ata 02/2024?"
+✅ "O que foi aprovado na ata 02/2025?"
 ```
 
 **Resposta esperada**:
@@ -154,7 +154,7 @@ Após configuração inicial:
 #### 3. Sobre Resoluções
 
 ```
-✅ "O que diz a resolução 024/2024?"
+✅ "O que diz a resolução 024/2025?"
 ✅ "Resoluções sobre calendário acadêmico"
 ✅ "Última resolução aprovada"
 ```
@@ -184,18 +184,18 @@ Qual a pauta da próxima reunião?
 
 **Resposta**:
 ```
-A próxima reunião do CONSUNI está agendada para 15 de maio de 2024, 
+A próxima reunião do CONSUNI está agendada para 15 de maio de 2025, 
 às 14h00, na Sala de Reuniões do CONSUNI.
 
 Ordem do Dia:
 1. Aprovação da ata da reunião anterior
-2. Discussão sobre o calendário acadêmico 2024.2
+2. Discussão sobre o calendário acadêmico 2025.2
 3. Análise de proposta de novo curso de graduação
 4. Assuntos gerais
 
 📚 Fontes consultadas:
-• Pauta da 4ª Reunião Ordinária - 2024 (87.3%)
-• Ata da 3ª Reunião - 2024 (72.1%)
+• Pauta da 4ª Reunião Ordinária - 2025 (87.3%)
+• Ata da 3ª Reunião - 2025 (72.1%)
 ```
 
 ### Dicas para Melhores Respostas
@@ -207,10 +207,10 @@ Ordem do Dia:
 ✅ **Use palavras-chave**:
 - "pauta", "ata", "resolução", "regimento"
 - "CONSUNI", "CONSU", "UFAL"
-- Números: "024/2024", "artigo 7"
+- Números: "024/2025", "artigo 7"
 
 ✅ **Contexto temporal**:
-- "última", "próxima", "de abril", "2024"
+- "última", "próxima", "de abril", "2025"
 
 ✅ **Ative HyDE** para perguntas sobre artigos específicos
 
@@ -235,7 +235,7 @@ Ordem do Dia:
 **Metadados**:
 - **Tipo**: Pauta, Ata, Resolução, Regimento, Outro
 - **Título**: Nome descritivo
-- **Número**: Ex: "024/2024" (opcional)
+- **Número**: Ex: "024/2025" (opcional)
 - **Data**: Data do documento (opcional)
 - **Conselho**: CONSUNI, CONSU, etc (opcional)
 
@@ -264,12 +264,12 @@ Ordem do Dia:
 
 **Cenário**: Upload de ata de reunião
 
-1. **Arquivo**: `Ata_Reuniao_CONSUNI_05_2024.pdf` (2.3MB)
+1. **Arquivo**: `Ata_Reuniao_CONSUNI_05_2025.pdf` (2.3MB)
 2. **Metadados**:
    - Tipo: Ata
-   - Título: "Ata da 5ª Reunião Ordinária - 2024"
-   - Número: "05/2024"
-   - Data: "2024-06-15"
+   - Título: "Ata da 5ª Reunião Ordinária - 2025"
+   - Número: "05/2025"
+   - Data: "2025-06-15"
    - Conselho: "CONSUNI"
 3. **Permissão**: ☑ Global (admin)
 4. **Processar**: ~15 segundos
@@ -335,7 +335,7 @@ Sistema busca:
 
 **Exemplo**:
 ```
-Documento: "Ata Reunião 05/2024"
+Documento: "Ata Reunião 05/2025"
 Dono: user123
 Status atual: 🔒 Privado
 
@@ -528,8 +528,8 @@ Pode fazer upload de múltiplos PDFs:
 ### 7. Organize por Metadados
 
 Use metadados consistentes:
-- Números: "001/2024", "002/2024"
-- Datas: "2024-01-15"
+- Números: "001/2025", "002/2025"
+- Datas: "2025-01-15"
 - Conselhos: "CONSUNI", "CONSU"
 
 Facilita buscas futuras!
