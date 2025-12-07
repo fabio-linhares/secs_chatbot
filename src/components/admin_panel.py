@@ -326,23 +326,32 @@ def render_admin_panel():
 def render_document_management():
     """Renderiza gerenciamento de documentos"""
     from services.document_manager import get_document_manager
+    from services.vector_store import get_vector_store
     
     st.subheader("📚 Gerenciamento de Documentos")
     
     doc_manager = get_document_manager()
+    vector_store = get_vector_store()
     
-    # Estatísticas
-    stats = doc_manager.get_stats()
+    # Estatísticas combinadas
+    upload_stats = doc_manager.get_stats()
+    vector_stats = vector_store.get_stats()
     
+    # Combinar estatísticas
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("📄 Total Documentos", stats["total_documents"])
+        total_docs = upload_stats["total_documents"] + vector_stats.get("num_documentos", 0)
+        st.metric("📄 Total Documentos", total_docs)
+        st.caption(f"Uploads: {upload_stats['total_documents']} | Vetorizados: {vector_stats.get('num_documentos', 0)}")
     with col2:
-        st.metric("💾 Espaço Usado", f"{stats['total_mb']:.1f} MB")
+        st.metric("💾 Espaço Usado", f"{upload_stats['total_mb']:.1f} MB")
+        st.caption("Apenas uploads")
     with col3:
-        st.metric("🌐 Documentos Globais", stats["global_documents"])
+        st.metric("🌐 Documentos Globais", upload_stats["global_documents"])
+        st.caption("Via upload")
     with col4:
-        st.metric("👥 Usuários Ativos", stats["active_users"])
+        st.metric("📦 Chunks Vetoriais", vector_stats.get("num_chunks", 0))
+        st.caption(f"{vector_stats.get('num_documentos', 0)} docs processados")
     
     st.markdown("---")
     
@@ -416,44 +425,138 @@ def render_document_management():
     # Lista de todos os documentos
     st.markdown("### 📋 Todos os Documentos")
     
-    all_docs = doc_manager.list_all_documents()
+    # Tabs para separar uploads e vetorizados
+    doc_tabs = st.tabs(["📤 Uploads (Interface)", "🔢 Vetorizados (run.sh)"])
     
-    # Filtro
-    filter_type = st.selectbox(
-        "Filtrar por tipo",
-        ["Todos", "Globais", "Por Usuário"]
-    )
+    # Tab 1: Documentos via upload
+    with doc_tabs[0]:
+        all_docs = doc_manager.list_all_documents()
+        
+        # Filtro
+        filter_type = st.selectbox(
+            "Filtrar por tipo",
+            ["Todos", "Globais", "Por Usuário"],
+            key="filter_uploads"
+        )
+        
+        if filter_type == "Globais":
+            filtered_docs = [d for d in all_docs if d.is_global]
+        elif filter_type == "Por Usuário":
+            filtered_docs = [d for d in all_docs if not d.is_global]
+        else:
+            filtered_docs = all_docs
+        
+        st.caption(f"Mostrando {len(filtered_docs)} documento(s) via upload")
+        
+        if not filtered_docs:
+            st.info("Nenhum documento enviado via interface ainda")
+        
+        for doc in filtered_docs[:20]:  # Limitar a 20
+            with st.expander(f"{'🌐' if doc.is_global else '👤'} {doc.original_name} - {doc.user_id}"):
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.write(f"**ID**: {doc.id}")
+                    st.write(f"**Usuário**: {doc.user_id}")
+                    st.write(f"**Tipo**: {'Global' if doc.is_global else 'Pessoal'}")
+                    st.write(f"**Tamanho**: {doc.file_size / 1024:.1f} KB")
+                    st.write(f"**Upload**: {doc.upload_date[:19]}")
+                    st.write(f"**Status**: {'✅ Processado' if doc.processed else '⏳ ' + doc.status}")
+                    if doc.processed:
+                        st.write(f"**Chunks**: {doc.num_chunks}")
+                
+                with col2:
+                    if st.button("🗑️ Excluir", key=f"admin_del_{doc.id}"):
+                        if doc_manager.delete_document(doc.id, st.session_state.get("user_id"), is_admin=True):
+                            st.success("✅ Excluído!")
+                            st.rerun()
+                        else:
+                            st.error("❌ Erro")
     
-    if filter_type == "Globais":
-        filtered_docs = [d for d in all_docs if d.is_global]
-    elif filter_type == "Por Usuário":
-        filtered_docs = [d for d in all_docs if not d.is_global]
-    else:
-        filtered_docs = all_docs
-    
-    st.caption(f"Mostrando {len(filtered_docs)} documento(s)")
-    
-    for doc in filtered_docs[:20]:  # Limitar a 20
-        with st.expander(f"{'🌐' if doc.is_global else '👤'} {doc.original_name} - {doc.user_id}"):
-            col1, col2 = st.columns([3, 1])
+    # Tab 2: Documentos vetorizados
+    with doc_tabs[1]:
+        import sqlite3
+        
+        conn = sqlite3.connect(doc_manager.db_path)
+        cursor = conn.execute("""
+            SELECT id, tipo, titulo, numero, data, conselho, caminho, criado_em
+            FROM documentos
+            ORDER BY criado_em DESC
+        """)
+        vectorized_docs = cursor.fetchall()
+        conn.close()
+        
+        # Filtro por tipo
+        tipos_disponiveis = list(set([doc[1] for doc in vectorized_docs]))
+        filter_tipo = st.selectbox(
+            "Filtrar por tipo",
+            ["Todos"] + sorted(tipos_disponiveis),
+            key="filter_vectorized"
+        )
+        
+        if filter_tipo != "Todos":
+            filtered_vectorized = [d for d in vectorized_docs if d[1] == filter_tipo]
+        else:
+            filtered_vectorized = vectorized_docs
+        
+        st.caption(f"Mostrando {len(filtered_vectorized)} documento(s) vetorizado(s)")
+        
+        # Estatísticas por tipo
+        if vectorized_docs:
+            tipo_counts = {}
+            for doc in vectorized_docs:
+                tipo = doc[1]
+                tipo_counts[tipo] = tipo_counts.get(tipo, 0) + 1
             
-            with col1:
-                st.write(f"**ID**: {doc.id}")
-                st.write(f"**Usuário**: {doc.user_id}")
-                st.write(f"**Tipo**: {'Global' if doc.is_global else 'Pessoal'}")
-                st.write(f"**Tamanho**: {doc.file_size / 1024:.1f} KB")
-                st.write(f"**Upload**: {doc.upload_date[:19]}")
-                st.write(f"**Status**: {'✅ Processado' if doc.processed else '⏳ ' + doc.status}")
-                if doc.processed:
-                    st.write(f"**Chunks**: {doc.num_chunks}")
+            st.markdown("**Documentos por tipo:**")
+            cols = st.columns(len(tipo_counts))
+            for idx, (tipo, count) in enumerate(sorted(tipo_counts.items())):
+                with cols[idx]:
+                    st.metric(tipo.capitalize(), count)
+        
+        st.markdown("---")
+        
+        # Listar documentos
+        for doc in filtered_vectorized[:50]:  # Limitar a 50
+            doc_id, tipo, titulo, numero, data, conselho, caminho, criado_em = doc
             
-            with col2:
-                if st.button("🗑️ Excluir", key=f"admin_del_{doc.id}"):
-                    if doc_manager.delete_document(doc.id, st.session_state.get("user_id"), is_admin=True):
-                        st.success("✅ Excluído!")
-                        st.rerun()
-                    else:
-                        st.error("❌ Erro")
+            # Ícone por tipo
+            icon_map = {
+                "ata": "📝",
+                "pauta": "📋",
+                "resolucao": "📜",
+                "regimento": "📕",
+                "pdf": "📄"
+            }
+            icon = icon_map.get(tipo, "📄")
+            
+            with st.expander(f"{icon} {titulo} ({tipo})"):
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.write(f"**ID**: {doc_id}")
+                    st.write(f"**Tipo**: {tipo}")
+                    st.write(f"**Título**: {titulo}")
+                    if numero:
+                        st.write(f"**Número**: {numero}")
+                    if data:
+                        st.write(f"**Data**: {data}")
+                    if conselho:
+                        st.write(f"**Conselho**: {conselho}")
+                    st.write(f"**Caminho**: {caminho}")
+                    st.write(f"**Processado em**: {criado_em[:19] if criado_em else 'N/A'}")
+                
+                with col2:
+                    st.caption("Vetorizado via run.sh")
+                    # Contar chunks
+                    conn = sqlite3.connect(doc_manager.db_path)
+                    cursor = conn.execute(
+                        "SELECT COUNT(*) FROM chunks WHERE documento_id = ?",
+                        (doc_id,)
+                    )
+                    num_chunks = cursor.fetchone()[0]
+                    conn.close()
+                    st.metric("Chunks", num_chunks)
     
     st.markdown("---")
     
