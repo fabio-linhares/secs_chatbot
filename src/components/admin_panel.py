@@ -564,7 +564,7 @@ def render_document_management():
     st.markdown("### 💾 Gerenciamento de Quotas")
     
     # Listar usuários com documentos
-    users_with_docs = stats.get("documents_by_user", {})
+    users_with_docs = upload_stats.get("documents_by_user", {})
     
     if users_with_docs:
         for user_id, doc_count in users_with_docs.items():
