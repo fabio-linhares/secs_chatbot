@@ -399,7 +399,6 @@ secs_chatbot/
 ### 🔧 Para Desenvolvedores
 
 - **[ARTIGO_TECNICO.md](ARTIGO_TECNICO.md)** - Arquitetura e implementação
-- **[CONFIGURACAO_EMBEDDINGS.md](CONFIGURACAO_EMBEDDINGS.md)** - Configuração de embeddings
 - **[MCP_SERVER.md](MCP_SERVER.md)** - Servidor MCP
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Como contribuir
 

@@ -146,10 +146,14 @@ Conteúdo:
         system_content = self.system_prompt
         
         if context_block:
-            system_content += "\n\n## FONTES DISPONÍVEIS\n\n"
-            system_content += "Use EXCLUSIVAMENTE os trechos a seguir como evidência. "
-            system_content += "Cite a fonte entre colchetes (ex: [Fonte 1]). "
-            system_content += "Se nada for relevante, diga que não há base documental.\n\n"
+            system_content += "\n\n## ⚠️ FONTES DISPONÍVEIS - LEIA COM ATENÇÃO\n\n"
+            system_content += "**REGRA CRÍTICA**: Você DEVE usar EXCLUSIVAMENTE os trechos abaixo como fonte de informação. "
+            system_content += "NÃO use conhecimento prévio, NÃO invente datas, NÃO adivinhe informações.\n\n"
+            system_content += "**DATAS E NÚMEROS**: Use APENAS as datas que aparecem EXPLICITAMENTE nos documentos abaixo. "
+            system_content += "Se um documento se chama 'ATA CONSUNI 03-06-2025.pdf', a reunião foi em JUNHO DE 2025, NÃO em 2024!\n\n"
+            system_content += "**CITAÇÃO OBRIGATÓRIA**: Cite a fonte entre colchetes (ex: [Fonte 1]).\n\n"
+            system_content += "**SE NÃO HOUVER INFORMAÇÃO**: Diga claramente 'Não encontrei essa informação nos documentos disponíveis'.\n\n"
+            system_content += "---\n\n"
             system_content += context_block
         
         if enrichment_info:
