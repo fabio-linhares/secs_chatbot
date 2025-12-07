@@ -563,7 +563,7 @@ def render_document_management():
     # Gerenciamento de quotas
     st.markdown("### 💾 Gerenciamento de Quotas")
     
-    # Listar usuários com documentos
+    # Listar usuários com documentos 
     users_with_docs = upload_stats.get("documents_by_user", {})
     
     if users_with_docs:
